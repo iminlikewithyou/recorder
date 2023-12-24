@@ -7,7 +7,6 @@ import org.bukkit.block.Block;
 import games.omg.recording.actions.classes.ActionTypes;
 import games.omg.recording.actions.classes.RecordedAction;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 
 public class BlockPlaceAction implements RecordedAction {
   private final Location location;
@@ -25,7 +24,12 @@ public class BlockPlaceAction implements RecordedAction {
     
     ActionTypes.BLOCK_PLACE.writeTo(out);
 
-    out.writeLong(location.toVector().toBlockVector().asLong()); // WTF!!!
+    // out.writeLong(location.toVector().toBlockVector().asLong()); // WTF!!!
+    out.writeInt(location.getBlockX());
+    out.writeInt(location.getBlockY());
+    out.writeInt(location.getBlockZ());
+
+    // this can't be the best way to do this
     out.writeInt(material.ordinal());
   }
 
